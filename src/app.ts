@@ -1,13 +1,23 @@
-import express from "express";
+import express, { Response, Request, NextFunction } from "express";
 import accountsRouter from "./api/accounts/accounts.routes";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import morgan from "morgan";
+import cors from "cors";
 
 const app = express();
 const PORT = 8080;
 dotenv.config();
-
 app.use(express.json());
+
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   const formattedDateTime = new Date().toISOString();
+//   console.log(
+//     `You recevide a request of type ${req.method} at the enpoint ${req.path}, at ${formattedDateTime}`
+//   );
+//   next();
+// });
+app.use(morgan("dev"));
 app.use("/accounts", accountsRouter);
 
 const connectDB = async () => {
